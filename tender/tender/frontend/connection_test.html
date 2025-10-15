@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Connection Test</title>
+</head>
+<body>
+    <h1>Frontend-Backend Connection Test</h1>
+    <div id="results"></div>
+    
+    <script>
+        async function testAllEndpoints() {
+            const results = document.getElementById('results');
+            results.innerHTML = '<p>Testing connections...</p>';
+            
+            const tests = [
+                { name: 'Health Check', url: 'http://localhost:8000/health', method: 'GET' },
+                { name: 'Tender Search', url: 'http://localhost:8000/tenders/search', method: 'POST', body: {keywords: ''} },
+                { name: 'Public API', url: 'http://localhost:8000/api/enriched-releases', method: 'GET' }
+            ];
+            
+            for (const test of tests) {
+                try {
+                    const options = {
+                        method: test.method,
+                        headers: { 'Content-Type': 'application/json' }
+                    };
+                    
+                    if (test.body) {
+                        options.body = JSON.stringify(test.body);
+                    }
+                    
+                    const response = await fetch(test.url, options);
+                    const data = await response.json();
+                    
+                    results.innerHTML += `
+                        <p style="color: green;">✅ ${test.name}: SUCCESS (Status: ${response.status})</p>
+                    `;
+                } catch (error) {
+                    results.innerHTML += `
+                        <p style="color: red;">❌ ${test.name}: FAILED - ${error.message}</p>
+                    `;
+                }
+            }
+        }
+        
+        // Run tests when page loads
+        testAllEndpoints();
+    </script>
+</body>
+</html>

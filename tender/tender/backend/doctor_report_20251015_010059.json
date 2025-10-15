@@ -1,0 +1,221 @@
+{
+  "timestamp": "2025-10-15T01:00:59.754770",
+  "diagnosis": {
+    "Backend": [
+      {
+        "status": "healthy",
+        "message": "Backend server is running and healthy",
+        "file": "N/A",
+        "fix": "None needed"
+      }
+    ],
+    "SQL Database": [
+      {
+        "status": "healthy",
+        "message": "Connection successful",
+        "file": "N/A",
+        "fix": "None needed"
+      }
+    ],
+    "MongoDB": [
+      {
+        "status": "healthy",
+        "message": "Connection successful",
+        "file": "N/A",
+        "fix": "None needed"
+      }
+    ],
+    "Authentication": [
+      {
+        "status": "issue",
+        "problem": "Profile endpoint: 404",
+        "file": "main.py",
+        "fix": "Check company profile endpoint logic"
+      }
+    ],
+    "API Endpoint": [
+      {
+        "status": "issue",
+        "problem": "/auth/register: HTTP 422",
+        "file": "main.py",
+        "fix": "Check /auth/register route implementation"
+      },
+      {
+        "status": "issue",
+        "problem": "/auth/login: HTTP 422",
+        "file": "main.py",
+        "fix": "Check /auth/login route implementation"
+      },
+      {
+        "status": "issue",
+        "problem": "/auth/me: HTTP 403",
+        "file": "main.py",
+        "fix": "Check /auth/me route implementation"
+      },
+      {
+        "status": "issue",
+        "problem": "/tenders/search: HTTP 403",
+        "file": "main.py",
+        "fix": "Check /tenders/search route implementation"
+      },
+      {
+        "status": "issue",
+        "problem": "/workspace/tenders: HTTP 403",
+        "file": "main.py",
+        "fix": "Check /workspace/tenders route implementation"
+      }
+    ],
+    "File Structure": [
+      {
+        "status": "healthy",
+        "message": "Found: main.py",
+        "file": "N/A",
+        "fix": "None needed"
+      },
+      {
+        "status": "healthy",
+        "message": "Found: auth.py",
+        "file": "N/A",
+        "fix": "None needed"
+      },
+      {
+        "status": "healthy",
+        "message": "Found: database.py",
+        "file": "N/A",
+        "fix": "None needed"
+      },
+      {
+        "status": "healthy",
+        "message": "Found: schemas.py",
+        "file": "N/A",
+        "fix": "None needed"
+      },
+      {
+        "status": "healthy",
+        "message": "Found: ai_services.py",
+        "file": "N/A",
+        "fix": "None needed"
+      },
+      {
+        "status": "healthy",
+        "message": "Found: readiness_scorer.py",
+        "file": "N/A",
+        "fix": "None needed"
+      },
+      {
+        "status": "healthy",
+        "message": "Found: ocds_client.py",
+        "file": "N/A",
+        "fix": "None needed"
+      },
+      {
+        "status": "healthy",
+        "message": "Found: mongodb_service.py",
+        "file": "N/A",
+        "fix": "None needed"
+      },
+      {
+        "status": "healthy",
+        "message": "Found: ../frontend/main.js",
+        "file": "N/A",
+        "fix": "None needed"
+      },
+      {
+        "status": "healthy",
+        "message": "Found: ../frontend/style.css",
+        "file": "N/A",
+        "fix": "None needed"
+      },
+      {
+        "status": "healthy",
+        "message": "Found: ../frontend/components/auth.js",
+        "file": "N/A",
+        "fix": "None needed"
+      },
+      {
+        "status": "healthy",
+        "message": "Found: ../frontend/components/dashboard.js",
+        "file": "N/A",
+        "fix": "None needed"
+      },
+      {
+        "status": "healthy",
+        "message": "Found: ../frontend/components/search.js",
+        "file": "N/A",
+        "fix": "None needed"
+      },
+      {
+        "status": "healthy",
+        "message": "Found: ../frontend/components/workspace.js",
+        "file": "N/A",
+        "fix": "None needed"
+      },
+      {
+        "status": "healthy",
+        "message": "Found: ../frontend/components/profile.js",
+        "file": "N/A",
+        "fix": "None needed"
+      }
+    ],
+    "Imports": [
+      {
+        "status": "healthy",
+        "message": "main.py: No import errors",
+        "file": "N/A",
+        "fix": "None needed"
+      },
+      {
+        "status": "healthy",
+        "message": "auth.py: No import errors",
+        "file": "N/A",
+        "fix": "None needed"
+      },
+      {
+        "status": "healthy",
+        "message": "database.py: No import errors",
+        "file": "N/A",
+        "fix": "None needed"
+      },
+      {
+        "status": "healthy",
+        "message": "schemas.py: No import errors",
+        "file": "N/A",
+        "fix": "None needed"
+      },
+      {
+        "status": "healthy",
+        "message": "ai_services.py: No import errors",
+        "file": "N/A",
+        "fix": "None needed"
+      },
+      {
+        "status": "healthy",
+        "message": "readiness_scorer.py: No import errors",
+        "file": "N/A",
+        "fix": "None needed"
+      },
+      {
+        "status": "healthy",
+        "message": "ocds_client.py: No import errors",
+        "file": "N/A",
+        "fix": "None needed"
+      },
+      {
+        "status": "healthy",
+        "message": "mongodb_service.py: No import errors",
+        "file": "N/A",
+        "fix": "None needed"
+      }
+    ],
+    "OCDS Client": [
+      {
+        "status": "healthy",
+        "message": "Has methods: sync_tenders_to_database",
+        "file": "N/A",
+        "fix": "None needed"
+      }
+    ]
+  },
+  "fixes_applied": [],
+  "summary": "6 issues found"
+}

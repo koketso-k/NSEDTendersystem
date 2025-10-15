@@ -1,0 +1,107 @@
+{
+  "timestamp": "2025-10-15T01:53:52.807841",
+  "summary": {
+    "total_tests": 11,
+    "passed_tests": 1,
+    "failed_tests": 10,
+    "success_rate": 9.090909090909092
+  },
+  "detailed_results": {
+    "Authentication": [
+      {
+        "feature": "User Registration",
+        "status": "FAIL",
+        "details": "HTTP 500",
+        "timestamp": "2025-10-15T01:53:44.666589"
+      }
+    ],
+    "SaaS Plans": [
+      {
+        "feature": "All Features",
+        "status": "FAIL",
+        "details": "No authentication",
+        "timestamp": "2025-10-15T01:53:46.697867"
+      }
+    ],
+    "Company Profiles": [
+      {
+        "feature": "All Features",
+        "status": "FAIL",
+        "details": "No authentication",
+        "timestamp": "2025-10-15T01:53:46.698439"
+      }
+    ],
+    "Search & Filtering": [
+      {
+        "feature": "All Features",
+        "status": "FAIL",
+        "details": "No authentication",
+        "timestamp": "2025-10-15T01:53:46.698439"
+      }
+    ],
+    "AI Features": [
+      {
+        "feature": "All Features",
+        "status": "FAIL",
+        "details": "No authentication",
+        "timestamp": "2025-10-15T01:53:46.698943"
+      }
+    ],
+    "Readiness Scoring": [
+      {
+        "feature": "All Features",
+        "status": "FAIL",
+        "details": "No authentication",
+        "timestamp": "2025-10-15T01:53:46.698943"
+      }
+    ],
+    "Workspace": [
+      {
+        "feature": "All Features",
+        "status": "FAIL",
+        "details": "No authentication",
+        "timestamp": "2025-10-15T01:53:46.699546"
+      }
+    ],
+    "Public API": [
+      {
+        "feature": "GET /api/enriched-releases",
+        "status": "FAIL",
+        "details": "HTTP 500",
+        "timestamp": "2025-10-15T01:53:48.728319"
+      },
+      {
+        "feature": "Analytics Endpoint",
+        "status": "FAIL",
+        "details": "HTTP 500",
+        "timestamp": "2025-10-15T01:53:50.766367"
+      }
+    ],
+    "Database": [
+      {
+        "feature": "SQL Database",
+        "status": "FAIL",
+        "details": "Status: unhealthy",
+        "timestamp": "2025-10-15T01:53:52.804513"
+      },
+      {
+        "feature": "MongoDB",
+        "status": "PASS",
+        "details": "Status: healthy",
+        "timestamp": "2025-10-15T01:53:52.805061"
+      }
+    ]
+  },
+  "requirements_check": {
+    "FastAPI Backend": true,
+    "SQL Database": true,
+    "NoSQL Database": true,
+    "Multi-tenant SaaS": false,
+    "Authentication": true,
+    "Search & Filtering": true,
+    "AI Summarization": true,
+    "Readiness Scoring": true,
+    "Workspace Tracking": true,
+    "Public APIs": true
+  }
+}

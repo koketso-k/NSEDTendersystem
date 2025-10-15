@@ -1,0 +1,151 @@
+{
+  "Backend Connection": {
+    "status": true,
+    "message": "Backend healthy - healthy",
+    "data": {
+      "status": "healthy",
+      "timestamp": "2025-10-14T22:52:53.428339",
+      "version": "1.0.0",
+      "database": "unhealthy",
+      "mongodb": "healthy"
+    },
+    "timestamp": "2025-10-15T00:52:53.431151"
+  },
+  "Database Connections": {
+    "status": true,
+    "message": "\u274c SQL Database failed: Textual SQL expression 'SELECT 1' should be explicitly declared as text('SELECT 1') | \u2705 MongoDB connected",
+    "data": null,
+    "timestamp": "2025-10-15T00:52:54.964339"
+  },
+  "User Registration": {
+    "status": true,
+    "message": "User registered successfully",
+    "data": {
+      "user_id": 129,
+      "token_received": true
+    },
+    "timestamp": "2025-10-15T00:52:57.326611"
+  },
+  "User Login": {
+    "status": true,
+    "message": "Login successful",
+    "data": null,
+    "timestamp": "2025-10-15T00:52:59.560012"
+  },
+  "Endpoint: Get current user": {
+    "status": true,
+    "message": "HTTP 200",
+    "data": null,
+    "timestamp": "2025-10-15T00:53:01.611417"
+  },
+  "Endpoint: Get company profile": {
+    "status": false,
+    "message": "HTTP 403: {\"detail\":\"Cannot access another team's profile\"}",
+    "data": null,
+    "timestamp": "2025-10-15T00:53:03.658093"
+  },
+  "Endpoint: Search tenders": {
+    "status": true,
+    "message": "HTTP 200",
+    "data": null,
+    "timestamp": "2025-10-15T00:53:05.735505"
+  },
+  "Endpoint: Get workspace": {
+    "status": false,
+    "message": "HTTP 500: Internal Server Error",
+    "data": null,
+    "timestamp": "2025-10-15T00:53:07.769153"
+  },
+  "Protected Endpoints": {
+    "status": false,
+    "message": "Protected endpoints test failed",
+    "data": null,
+    "timestamp": "2025-10-15T00:53:07.769153"
+  },
+  "AI Service Init": {
+    "status": true,
+    "message": "AI service initialized",
+    "data": null,
+    "timestamp": "2025-10-15T00:53:07.869626"
+  },
+  "Readiness Scorer Init": {
+    "status": true,
+    "message": "Readiness scorer initialized",
+    "data": null,
+    "timestamp": "2025-10-15T00:53:07.869626"
+  },
+  "AI Summarization": {
+    "status": true,
+    "message": "Summarization working",
+    "data": {
+      "summary_length": 250
+    },
+    "timestamp": "2025-10-15T00:53:08.154917"
+  },
+  "AI Services": {
+    "status": true,
+    "message": "AI services functional",
+    "data": null,
+    "timestamp": "2025-10-15T00:53:08.154917"
+  },
+  "Component: components/auth.js": {
+    "status": true,
+    "message": "File exists",
+    "data": null,
+    "timestamp": "2025-10-15T00:53:08.154917"
+  },
+  "Component: components/dashboard.js": {
+    "status": true,
+    "message": "File exists",
+    "data": null,
+    "timestamp": "2025-10-15T00:53:08.155425"
+  },
+  "Component: components/profile.js": {
+    "status": true,
+    "message": "File exists",
+    "data": null,
+    "timestamp": "2025-10-15T00:53:08.155425"
+  },
+  "Component: components/search.js": {
+    "status": true,
+    "message": "File exists",
+    "data": null,
+    "timestamp": "2025-10-15T00:53:08.155425"
+  },
+  "Component: components/workspace.js": {
+    "status": true,
+    "message": "File exists",
+    "data": null,
+    "timestamp": "2025-10-15T00:53:08.155425"
+  },
+  "Component: components/admin_panel.js": {
+    "status": true,
+    "message": "File exists",
+    "data": null,
+    "timestamp": "2025-10-15T00:53:08.155977"
+  },
+  "Component: main.js": {
+    "status": true,
+    "message": "File exists",
+    "data": null,
+    "timestamp": "2025-10-15T00:53:08.156033"
+  },
+  "Component: style.css": {
+    "status": true,
+    "message": "File exists",
+    "data": null,
+    "timestamp": "2025-10-15T00:53:08.156033"
+  },
+  "Frontend Components": {
+    "status": true,
+    "message": "Frontend components all found",
+    "data": null,
+    "timestamp": "2025-10-15T00:53:08.156033"
+  },
+  "OCDS API Connection": {
+    "status": false,
+    "message": "OCDS API error: 'OCDSClient' object has no attribute 'fetch_tenders'",
+    "data": null,
+    "timestamp": "2025-10-15T00:53:08.408775"
+  }
+}

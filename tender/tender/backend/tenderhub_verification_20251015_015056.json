@@ -1,0 +1,149 @@
+{
+  "timestamp": "2025-10-15T01:50:56.558048",
+  "summary": {
+    "total_tests": 18,
+    "passed_tests": 14,
+    "failed_tests": 4,
+    "success_rate": 77.77777777777779
+  },
+  "detailed_results": {
+    "Authentication": [
+      {
+        "feature": "User Registration",
+        "status": "PASS",
+        "details": "Team: Verification User's Team, Tier: free",
+        "timestamp": "2025-10-15T01:50:23.781360"
+      },
+      {
+        "feature": "User Login",
+        "status": "PASS",
+        "details": "JWT token issued",
+        "timestamp": "2025-10-15T01:50:26.031062"
+      },
+      {
+        "feature": "Token Refresh",
+        "status": "PASS",
+        "details": "",
+        "timestamp": "2025-10-15T01:50:28.061853"
+      },
+      {
+        "feature": "Get Current User",
+        "status": "PASS",
+        "details": "",
+        "timestamp": "2025-10-15T01:50:30.095500"
+      }
+    ],
+    "SaaS Plans": [
+      {
+        "feature": "Plan Tier Detection",
+        "status": "PASS",
+        "details": "Current tier: free",
+        "timestamp": "2025-10-15T01:50:30.096098"
+      },
+      {
+        "feature": "Team Limits Enforcement",
+        "status": "PASS",
+        "details": "Users: 1/1",
+        "timestamp": "2025-10-15T01:50:32.153737"
+      }
+    ],
+    "Company Profiles": [
+      {
+        "feature": "Create/Update Profile",
+        "status": "PASS",
+        "details": "Profile saved successfully",
+        "timestamp": "2025-10-15T01:50:34.190870"
+      },
+      {
+        "feature": "Retrieve Profile",
+        "status": "PASS",
+        "details": "",
+        "timestamp": "2025-10-15T01:50:36.228296"
+      }
+    ],
+    "Search & Filtering": [
+      {
+        "feature": "Keyword Search",
+        "status": "PASS",
+        "details": "Found 2 tenders with 'construction'",
+        "timestamp": "2025-10-15T01:50:38.266647"
+      },
+      {
+        "feature": "Individual Tender Access",
+        "status": "PASS",
+        "details": "",
+        "timestamp": "2025-10-15T01:50:40.293415"
+      }
+    ],
+    "AI Features": [
+      {
+        "feature": "AI Summarization",
+        "status": "FAIL",
+        "details": "HTTP 422 - Using fallback",
+        "timestamp": "2025-10-15T01:50:44.351216"
+      },
+      {
+        "feature": "Fallback Summarization",
+        "status": "PASS",
+        "details": "System provides fallback when AI unavailable",
+        "timestamp": "2025-10-15T01:50:44.351216"
+      }
+    ],
+    "Readiness Scoring": [
+      {
+        "feature": "Readiness Check",
+        "status": "FAIL",
+        "details": "HTTP 403",
+        "timestamp": "2025-10-15T01:50:48.418944"
+      }
+    ],
+    "Workspace": [
+      {
+        "feature": "Workspace",
+        "status": "FAIL",
+        "details": "Cannot access tenders",
+        "timestamp": "2025-10-15T01:50:50.455007"
+      }
+    ],
+    "Public API": [
+      {
+        "feature": "GET /api/enriched-releases",
+        "status": "PASS",
+        "details": "Retrieved 5 enriched tenders",
+        "timestamp": "2025-10-15T01:50:52.485305"
+      },
+      {
+        "feature": "GET /api/analytics/spend-by-buyer",
+        "status": "PASS",
+        "details": "Spend analytics retrieved",
+        "timestamp": "2025-10-15T01:50:54.515334"
+      }
+    ],
+    "Database": [
+      {
+        "feature": "SQL Database",
+        "status": "FAIL",
+        "details": "Status: unhealthy",
+        "timestamp": "2025-10-15T01:50:56.551697"
+      },
+      {
+        "feature": "MongoDB",
+        "status": "PASS",
+        "details": "Status: healthy",
+        "timestamp": "2025-10-15T01:50:56.552279"
+      }
+    ]
+  },
+  "requirements_check": {
+    "FastAPI Backend": true,
+    "SQL Database": true,
+    "NoSQL Database": true,
+    "Multi-tenant SaaS": true,
+    "Authentication": true,
+    "Search & Filtering": true,
+    "AI Summarization": true,
+    "Readiness Scoring": true,
+    "Workspace Tracking": true,
+    "Public APIs": true
+  }
+}
