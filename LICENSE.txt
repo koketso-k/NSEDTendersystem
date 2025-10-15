@@ -1,0 +1,60 @@
+MIT License
+
+
+Copyright (c) 2025 Tender Insight Hub Development Team
+- Sinethemba Mthembu
+- Ashwill Bradley Herman  
+- Koketso Kgogo
+- Onthatile Kilelo
+- Khethiwe Skosana
+University of Sol Plaatje
+NSED742 - Software Engineering & Design
+
+This software and associated documentation files (the "Software") are developed 
+as part of academic coursework under the supervision of Dr. Silas Verkijika.
+
+ACADEMIC USE ONLY:
+This Software is licensed solely for educational and academic purposes. 
+Any use, reproduction, or distribution of this Software outside of academic 
+contexts requires explicit written permission from the copyright holders.
+
+RESTRICTIONS:
+- Commercial use is prohibited without written consent
+- Redistribution must include this license notice
+- Academic integrity policies apply to any derivative works
+- Original authorship must be properly attributed
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+
+For permissions beyond the scope of this license, contact:
+- Sinethemba Mthembu (202201661) @Sne-M-Crypto
+- Ashwill Bradley Herman (202108414) @AshwilHerman
+- Koketso Kgogo (202107686) @Koketso-K
+- Onthatile Kilelo (202213333) @OG-Kilelo
+- Khethiwe Skosana (202205775) @KhethiweSkhosana95
+
+COURSE CONTEXT:
+NSED742 - Software Engineering & Design
+University of Sol Plaatje
+Supervisor: Dr. Silas Verkijika
+Academic Year: 2025
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

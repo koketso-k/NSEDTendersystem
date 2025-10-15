@@ -1,0 +1,525 @@
+"""
+Tender Insight Hub - FastAPI Application Entry Point
+
+This is the main FastAPI application for the Tender Insight Hub platform.
+A cloud-native SaaS platform for South African SMEs to discover, analyze,
+and track public tender opportunities.
+
+Author: NSED742 Team
+Version: 1.0.0
+Python: 3.11+
+"""
+
+import os
+import logging
+import asyncio
+from contextlib import asynccontextmanager
+from datetime import datetime
+from typing import Dict, Any
+
+import uvicorn
+from fastapi import FastAPI, Request, HTTPException, Depends
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.middleware.trustedhost import TrustedHostMiddleware
+from fastapi.responses import JSONResponse
+from fastapi.openapi.utils import get_openapi
+from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi.util import get_remote_address
+from slowapi.errors import RateLimitExceeded
+from prometheus_fastapi_instrumentator import Instrumentator
+
+# Database imports
+from app.database.sql_database import get_sql_database, init_sql_database
+from app.database.nosql_database import get_nosql_database, init_nosql_database
+
+# Core imports
+from app.core.config import get_settings
+from app.core.security import get_current_user
+from app.core.exceptions import (
+    APIException,
+    ValidationException,
+    AuthenticationException,
+    RateLimitException
+)
+
+# Router imports
+from app.api.v1.routers import (
+    auth,
+    tenders,
+    documents,
+    company,
+    workspace,
+    analytics,
+    reports,
+    webhooks,
+    team,
+    health
+)
+
+# Middleware imports
+from app.middleware.logging import LoggingMiddleware
+from app.middleware.authentication import AuthenticationMiddleware
+from app.middleware.tenant_isolation import TenantIsolationMiddleware
+from app.middleware.error_handling import ErrorHandlingMiddleware
+
+# Background tasks
+from app.services.background_tasks import start_background_tasks, stop_background_tasks
+
+# Configuration
+settings = get_settings()
+
+# Logging configuration
+logging.basicConfig(
+    level=getattr(logging, settings.LOG_LEVEL.upper()),
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    handlers=[
+        logging.StreamHandler(),
+        logging.FileHandler(f"logs/tender_hub_{datetime.now().strftime('%Y%m%d')}.log")
+    ] if not settings.ENVIRONMENT == "production" else [logging.StreamHandler()]
+)
+logger = logging.getLogger(__name__)
+
+# Rate limiting
+limiter = Limiter(key_func=get_remote_address)
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """
+    Application lifespan manager for startup and shutdown events.
+    Handles database initialization, background tasks, and cleanup.
+    """
+    logger.info("Starting Tender Insight Hub application...")
+    
+    try:
+        # Initialize databases
+        logger.info("Initializing databases...")
+        await init_sql_database()
+        await init_nosql_database()
+        
+        # Start background tasks
+        logger.info("Starting background tasks...")
+        await start_background_tasks()
+        
+        # Health check
+        logger.info("Performing startup health checks...")
+        sql_db = await get_sql_database()
+        nosql_db = await get_nosql_database()
+        
+        # Verify database connections
+        await sql_db.execute("SELECT 1")
+        await nosql_db.admin.command('ping')
+        
+        logger.info("Application startup completed successfully")
+        
+    except Exception as e:
+        logger.error(f"Failed to start application: {str(e)}")
+        raise
+    
+    yield  # Application runs here
+    
+    # Shutdown
+    logger.info("Shutting down Tender Insight Hub application...")
+    try:
+        await stop_background_tasks()
+        logger.info("Application shutdown completed")
+    except Exception as e:
+        logger.error(f"Error during shutdown: {str(e)}")
+
+
+# FastAPI application instance
+app = FastAPI(
+    title="Tender Insight Hub API",
+    description="""
+    A cloud-native SaaS platform designed to simplify public tender discovery,
+    document analysis, and readiness assessment for South African SMEs.
+    
+    ## Features
+    
+    * **Tender Discovery**: Advanced search and filtering with AI-powered ranking
+    * **Document Analysis**: AI summarization using HuggingFace models
+    * **Readiness Scoring**: Automated suitability assessment (0-100 scale)
+    * **Workspace Management**: Collaborative tender tracking and team features
+    * **Premium Analytics**: Advanced insights and reporting (Pro/Enterprise)
+    * **Multi-tenant SaaS**: Secure team-based access with seat pricing
+    
+    ## Authentication
+    
+    All endpoints require JWT-based authentication via API keys:
+    ```
+    Authorization: Bearer YOUR_API_KEY
+    ```
+    
+    ## Rate Limits
+    
+    - **Free Tier**: 100 requests/hour
+    - **Pro Tier**: 1,000 requests/hour  
+    - **Enterprise Tier**: 10,000 requests/hour
+    
+    ## Support
+    
+    - Documentation: https://docs.tenderinsighthub.co.za
+    - Support: support@tenderinsighthub.co.za
+    - Status: https://status.tenderinsighthub.co.za
+    """,
+    version="1.0.0",
+    openapi_tags=[
+        {"name": "Authentication", "description": "User authentication and authorization"},
+        {"name": "Tenders", "description": "Tender search, discovery, and management"},
+        {"name": "Documents", "description": "Document upload and AI analysis"},
+        {"name": "Company", "description": "Company profile management"},
+        {"name": "Workspace", "description": "Team collaboration and tender tracking"},
+        {"name": "Analytics", "description": "Advanced insights and market data"},
+        {"name": "Reports", "description": "Report generation and export"},
+        {"name": "Webhooks", "description": "Real-time notifications"},
+        {"name": "Team", "description": "Team and subscription management"},
+        {"name": "Health", "description": "System health and monitoring"}
+    ],
+    contact={
+        "name": "Tender Insight Hub Support",
+        "email": "support@tenderinsighthub.co.za",
+        "url": "https://tenderinsighthub.co.za/support"
+    },
+    license_info={
+        "name": "Proprietary",
+        "url": "https://tenderinsighthub.co.za/license"
+    },
+    servers=[
+        {"url": "https://api.tenderinsighthub.co.za/v1", "description": "Production"},
+        {"url": "https://api-staging.tenderinsighthub.co.za/v1", "description": "Staging"}
+    ],
+    lifespan=lifespan,
+    docs_url="/docs" if settings.ENVIRONMENT != "production" else None,
+    redoc_url="/redoc" if settings.ENVIRONMENT != "production" else None,
+)
+
+# Add state for dependency injection
+app.state.limiter = limiter
+
+
+# Custom OpenAPI schema
+def custom_openapi():
+    """Custom OpenAPI schema with additional security and metadata."""
+    if app.openapi_schema:
+        return app.openapi_schema
+    
+    openapi_schema = get_openapi(
+        title=app.title,
+        version=app.version,
+        description=app.description,
+        routes=app.routes,
+    )
+    
+    # Add security schemes
+    openapi_schema["components"]["securitySchemes"] = {
+        "BearerAuth": {
+            "type": "http",
+            "scheme": "bearer",
+            "bearerFormat": "JWT"
+        }
+    }
+    
+    # Add global security requirement
+    openapi_schema["security"] = [{"BearerAuth": []}]
+    
+    # Add custom headers
+    openapi_schema["info"]["x-api-version"] = "1.0.0"
+    openapi_schema["info"]["x-api-status"] = "stable"
+    
+    app.openapi_schema = openapi_schema
+    return app.openapi_schema
+
+
+app.openapi = custom_openapi
+
+
+# Middleware configuration
+# Note: Middleware is applied in reverse order (last added = first executed)
+
+# 1. Error handling (outermost)
+app.add_middleware(ErrorHandlingMiddleware)
+
+# 2. CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=settings.ALLOWED_ORIGINS,
+    allow_credentials=True,
+    allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allow_headers=["*"],
+    expose_headers=["X-RateLimit-Limit", "X-RateLimit-Remaining", "X-RateLimit-Reset"]
+)
+
+# 3. Trusted hosts
+if settings.ENVIRONMENT == "production":
+    app.add_middleware(
+        TrustedHostMiddleware,
+        allowed_hosts=settings.ALLOWED_HOSTS
+    )
+
+# 4. Request logging
+app.add_middleware(LoggingMiddleware)
+
+# 5. Tenant isolation
+app.add_middleware(TenantIsolationMiddleware)
+
+# 6. Authentication (innermost, closest to routes)
+app.add_middleware(AuthenticationMiddleware)
+
+# Rate limiting
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
+
+# Metrics instrumentation
+if settings.ENABLE_METRICS:
+    instrumentator = Instrumentator()
+    instrumentator.instrument(app).expose(app, endpoint="/metrics")
+
+
+# Exception handlers
+@app.exception_handler(APIException)
+async def api_exception_handler(request: Request, exc: APIException):
+    """Handle custom API exceptions."""
+    return JSONResponse(
+        status_code=exc.status_code,
+        content={
+            "error": {
+                "code": exc.error_code,
+                "message": exc.message,
+                "details": exc.details,
+                "request_id": getattr(request.state, 'request_id', None),
+                "timestamp": datetime.utcnow().isoformat()
+            }
+        }
+    )
+
+
+@app.exception_handler(ValidationException)
+async def validation_exception_handler(request: Request, exc: ValidationException):
+    """Handle validation errors."""
+    return JSONResponse(
+        status_code=400,
+        content={
+            "error": {
+                "code": "VALIDATION_ERROR",
+                "message": "Request validation failed",
+                "details": exc.errors,
+                "request_id": getattr(request.state, 'request_id', None),
+                "timestamp": datetime.utcnow().isoformat()
+            }
+        }
+    )
+
+
+@app.exception_handler(AuthenticationException)
+async def auth_exception_handler(request: Request, exc: AuthenticationException):
+    """Handle authentication errors."""
+    return JSONResponse(
+        status_code=401,
+        content={
+            "error": {
+                "code": "AUTHENTICATION_ERROR",
+                "message": exc.message,
+                "request_id": getattr(request.state, 'request_id', None),
+                "timestamp": datetime.utcnow().isoformat()
+            }
+        }
+    )
+
+
+@app.exception_handler(RateLimitException)
+async def rate_limit_exception_handler(request: Request, exc: RateLimitException):
+    """Handle rate limiting errors."""
+    return JSONResponse(
+        status_code=429,
+        content={
+            "error": {
+                "code": "RATE_LIMIT_EXCEEDED",
+                "message": "Rate limit exceeded",
+                "details": {
+                    "limit": exc.limit,
+                    "window": exc.window,
+                    "retry_after": exc.retry_after
+                },
+                "request_id": getattr(request.state, 'request_id', None),
+                "timestamp": datetime.utcnow().isoformat()
+            }
+        },
+        headers={"Retry-After": str(exc.retry_after)}
+    )
+
+
+@app.exception_handler(500)
+async def internal_server_error_handler(request: Request, exc: Exception):
+    """Handle internal server errors."""
+    logger.error(f"Internal server error: {str(exc)}", exc_info=True)
+    
+    return JSONResponse(
+        status_code=500,
+        content={
+            "error": {
+                "code": "INTERNAL_SERVER_ERROR",
+                "message": "An internal error occurred",
+                "request_id": getattr(request.state, 'request_id', None),
+                "timestamp": datetime.utcnow().isoformat()
+            }
+        }
+    )
+
+
+# Root endpoint
+@app.get("/", include_in_schema=False)
+async def root():
+    """API root endpoint."""
+    return {
+        "message": "Welcome to Tender Insight Hub API",
+        "version": "1.0.0",
+        "documentation": "/docs",
+        "health": "/v1/health",
+        "status": "https://status.tenderinsighthub.co.za"
+    }
+
+
+# Health check endpoint (unauthenticated)
+@app.get("/health", include_in_schema=False)
+async def health_check():
+    """Basic health check endpoint."""
+    return {
+        "status": "healthy",
+        "timestamp": datetime.utcnow().isoformat(),
+        "version": "1.0.0"
+    }
+
+
+# API v1 routes
+app.include_router(
+    health.router,
+    prefix="/v1",
+    tags=["Health"]
+)
+
+app.include_router(
+    auth.router,
+    prefix="/v1/auth",
+    tags=["Authentication"]
+)
+
+app.include_router(
+    tenders.router,
+    prefix="/v1/tenders",
+    tags=["Tenders"],
+    dependencies=[Depends(get_current_user)]
+)
+
+app.include_router(
+    documents.router,
+    prefix="/v1/documents",
+    tags=["Documents"],
+    dependencies=[Depends(get_current_user)]
+)
+
+app.include_router(
+    company.router,
+    prefix="/v1/company",
+    tags=["Company"],
+    dependencies=[Depends(get_current_user)]
+)
+
+app.include_router(
+    workspace.router,
+    prefix="/v1/workspace",
+    tags=["Workspace"],
+    dependencies=[Depends(get_current_user)]
+)
+
+app.include_router(
+    analytics.router,
+    prefix="/v1/analytics",
+    tags=["Analytics"],
+    dependencies=[Depends(get_current_user)]
+)
+
+app.include_router(
+    reports.router,
+    prefix="/v1/reports",
+    tags=["Reports"],
+    dependencies=[Depends(get_current_user)]
+)
+
+app.include_router(
+    webhooks.router,
+    prefix="/v1/webhooks",
+    tags=["Webhooks"],
+    dependencies=[Depends(get_current_user)]
+)
+
+app.include_router(
+    team.router,
+    prefix="/v1/team",
+    tags=["Team"],
+    dependencies=[Depends(get_current_user)]
+)
+
+
+# Request/Response middleware for debugging (development only)
+if settings.ENVIRONMENT == "development":
+    @app.middleware("http")
+    async def debug_middleware(request: Request, call_next):
+        start_time = asyncio.get_event_loop().time()
+        
+        # Log request
+        logger.debug(f"Request: {request.method} {request.url}")
+        logger.debug(f"Headers: {dict(request.headers)}")
+        
+        response = await call_next(request)
+        
+        # Log response
+        process_time = asyncio.get_event_loop().time() - start_time
+        logger.debug(f"Response: {response.status_code} ({process_time:.3f}s)")
+        
+        response.headers["X-Process-Time"] = str(process_time)
+        return response
+
+
+# Startup message
+@app.on_event("startup")
+async def startup_message():
+    """Log startup information."""
+    logger.info("=" * 60)
+    logger.info("🚀 TENDER INSIGHT HUB API STARTED")
+    logger.info("=" * 60)
+    logger.info(f"Environment: {settings.ENVIRONMENT}")
+    logger.info(f"Version: 1.0.0")
+    logger.info(f"Debug Mode: {settings.DEBUG}")
+    logger.info(f"Database SQL: {settings.DATABASE_URL[:20]}...")
+    logger.info(f"Database NoSQL: {settings.MONGODB_URL[:20]}...")
+    logger.info(f"Redis URL: {settings.REDIS_URL[:20]}...")
+    logger.info(f"AI Model: {settings.AI_MODEL_NAME}")
+    logger.info(f"Max Upload Size: {settings.MAX_UPLOAD_SIZE_MB}MB")
+    logger.info(f"Allowed Origins: {len(settings.ALLOWED_ORIGINS)} domains")
+    logger.info("=" * 60)
+
+
+if __name__ == "__main__":
+    """
+    Run the application directly with uvicorn.
+    For production, use: gunicorn -k uvicorn.workers.UvicornWorker main:app
+    """
+    uvicorn_config = {
+        "host": "0.0.0.0",
+        "port": int(os.getenv("PORT", 8000)),
+        "reload": settings.ENVIRONMENT == "development",
+        "log_level": settings.LOG_LEVEL.lower(),
+        "access_log": settings.ENVIRONMENT != "production",
+        "loop": "asyncio",
+        "http": "h11",
+    }
+    
+    if settings.ENVIRONMENT == "production":
+        uvicorn_config.update({
+            "workers": int(os.getenv("WORKERS", 4)),
+            "ssl_keyfile": os.getenv("SSL_KEYFILE"),
+            "ssl_certfile": os.getenv("SSL_CERTFILE"),
+        })
+    
+    logger.info(f"Starting server with config: {uvicorn_config}")
+    uvicorn.run("main:app", **uvicorn_config)

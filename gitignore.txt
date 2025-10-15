@@ -1,0 +1,98 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environment
+venv/
+env/
+ENV/
+.venv/
+.env
+.env.local
+
+# IDE and Editors
+.idea/
+*.swp
+*.swo
+*.sublime-project
+*.sublime-workspace
+
+# Logs
+*.log
+logs/
+*.log.*
+supervisor/
+
+# Unit test and coverage
+.coverage
+htmlcov/
+.tox/
+.nox/
+.coverage.*
+*.cover
+*.py,cover
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Docker
+.dockerignore
+compose.yaml
+compose.yml
+docker-compose.yaml
+docker-compose.yml
+.DS_Store
+
+# Local config files
+*.local
+/secret.py
+/config.py
+
+# FastAPI / Uvicorn
+uvicorn.log
+*log
+
+# Database files (local)
+*.sqlite3
+*.db
+dump.rdb  # Redis snapshot (if stored locally)
+*.dump
+
+# Artifacts
+*.tar.gz
+*.whl
+
+# Environment variables (security)
+.env
+.env.*
+!.env.example  # Optional: keep example file
+!.env.sample
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
