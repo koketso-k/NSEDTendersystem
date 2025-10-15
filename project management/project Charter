@@ -1,0 +1,321 @@
+# Tender Insight Hub - Project Charter
+
+**Document Version:** 1.0  
+**Date:** August 1, 2025  
+**Project Code:** TIH-2025-001  
+**Document Owner:** Project Management Office
+
+---
+
+## 1. Project Overview
+
+### 1.1 Project Title
+**Tender Insight Hub - Cloud-Native SaaS Platform for SME Tender Management**
+
+### 1.2 Project Vision
+To revolutionize how South African Small and Medium Enterprises (SMEs) discover, analyze, and manage public tender opportunities through intelligent automation and collaborative workspace solutions.
+
+### 1.3 Project Mission
+Develop and deploy a comprehensive cloud-native SaaS platform that eliminates barriers to tender discovery, reduces document analysis time by 80%, and increases SME tender application success rates through AI-powered insights and readiness assessments.
+
+---
+
+## 2. Business Case & Justification
+
+### 2.1 Problem Statement
+South African SMEs face significant challenges in accessing public tender opportunities:
+- **Fragmented Discovery**: Tender information scattered across multiple platforms
+- **Time-Intensive Analysis**: Manual document review takes 4-6 hours per tender
+- **Limited Assessment Tools**: No systematic way to evaluate tender suitability
+- **Poor Market Visibility**: Lack of insights into government spending patterns
+- **Collaboration Barriers**: No centralized workspace for team-based tender management
+
+### 2.2 Business Opportunity
+- **Market Size**: 2.3 million registered SMEs in South Africa
+- **Government Procurement**: R500+ billion annual government spending
+- **Digital Transformation**: Growing demand for AI-powered business solutions
+- **SaaS Growth**: 35% annual growth in African SaaS adoption
+
+### 2.3 Expected Benefits
+**Quantitative Benefits:**
+- Reduce tender analysis time from 6 hours to 30 minutes (90% reduction)
+- Increase tender application success rate by 25%
+- Process 500+ tenders daily through automated summarization
+- Target 500+ SME signups within first 3 months
+- Achieve 15% free-to-paid conversion rate
+
+**Qualitative Benefits:**
+- Enhanced decision-making through AI-powered insights
+- Improved collaboration through shared workspaces
+- Better market intelligence through analytics dashboards
+- Increased competitiveness of South African SMEs
+
+---
+
+## 3. Project Scope
+
+### 3.1 In Scope
+**Core Platform Features:**
+- Keyword-based tender search and filtering system
+- AI-powered document summarization using HuggingFace models
+- Automated readiness scoring algorithm (0-100 scale)
+- Multi-tenant workspace for team collaboration
+- Company profile management and matching
+- Activity tracking and audit logs
+
+**Premium Features:**
+- Advanced analytics and government spending insights
+- PDF report generation and automated delivery
+- Historical trend analysis and forecasting
+- Bulk tender processing capabilities
+
+**Technical Components:**
+- FastAPI backend with Python 3.11
+- Multi-database architecture (PostgreSQL, MongoDB, Redis)
+- JWT-based authentication and authorization
+- RESTful API with OpenAPI documentation
+- Cloud deployment on scalable infrastructure
+
+### 3.2 Out of Scope
+- Direct tender submission functionality
+- Payment processing for tender applications
+- Government agency integrations beyond OCDS API
+- Mobile application development (Phase 1)
+- Multi-language support beyond English
+- Real-time chat/messaging features
+
+---
+
+## 4. Project Objectives & Success Criteria
+
+### 4.1 Primary Objectives
+1. **Develop Core Platform** - Complete functional SaaS platform with all core features
+2. **Implement AI Capabilities** - Deploy reliable document summarization and scoring algorithms
+3. **Ensure System Performance** - Achieve <2 second API response times and 99.5% uptime
+4. **Launch Market-Ready Product** - Deploy production-ready system with monitoring and support
+5. **Validate Market Fit** - Achieve initial user adoption and engagement targets
+
+### 4.2 Success Criteria
+**Technical Success Metrics:**
+- 80%+ unit and integration test coverage
+- <5 critical bugs in production launch
+- API response times <2 seconds (95th percentile)
+- 99.5% system uptime during business hours
+- Support for 1,000+ concurrent users
+
+**Business Success Metrics:**
+- 500+ SME registrations within 3 months
+- 15% conversion rate from free to paid tiers
+- Average user session duration >10 minutes
+- 70%+ user satisfaction rating
+- 25+ active enterprise customers by month 6
+
+---
+
+## 5. Project Team & Governance
+
+### 5.1 Project Team Structure
+**Core Team Members:**
+- **Project Manager**: Sinethemba Mthembu (202201661)
+  - Overall project coordination and delivery
+  - Stakeholder management and communication
+  - Risk management and issue resolution
+
+- **Lead Developer**: Ashwill Bradley Herman (202108414)
+  - Technical architecture and code quality
+  - API design and integration management
+  - Development team leadership
+
+- **DevOps Engineer**: Koketso Kgogo (202107686)
+  - Infrastructure setup and deployment
+  - CI/CD pipeline management
+  - Performance monitoring and optimization
+
+- **Backend Developer**: Onthatile Kilelo (202213333)
+  - Database design and implementation
+  - AI model integration and optimization
+  - Backend service development
+
+- **Product Owner**: Khethiwe Skosana (202205775)
+  - Requirements gathering and prioritization
+  - User experience design oversight
+  - Market research and validation
+
+### 5.2 Governance Structure
+**Steering Committee:**
+- Academic Supervisor: Dr. Silas Verkijika
+- Industry Mentor (TBD)
+- Product Owner
+- Project Manager
+
+**Decision-Making Authority:**
+- Technical decisions: Lead Developer with team consultation
+- Product decisions: Product Owner with stakeholder input
+- Budget/resource decisions: Project Manager with steering committee approval
+
+---
+
+## 6. Project Timeline & Milestones
+
+### 6.1 High-Level Project Phases
+**Phase 1: Foundation (Weeks 1-4)**
+- Requirements finalization and system architecture
+- Database schema design and implementation
+- Development environment setup
+- **Milestone**: Technical foundation established
+
+**Phase 2: Core Development (Weeks 5-10)**
+- API development and authentication system
+- AI model integration and testing
+- Database integration and data management
+- **Milestone**: Core functionality operational
+
+**Phase 3: Advanced Features (Weeks 11-14)**
+- Premium feature development
+- Analytics and reporting capabilities
+- Performance optimization
+- **Milestone**: Feature-complete system
+
+**Phase 4: Testing & Deployment (Weeks 15-18)**
+- Comprehensive testing and bug fixes
+- Production deployment and monitoring
+- User acceptance testing
+- **Milestone**: Production-ready system launched
+
+### 6.2 Critical Path Dependencies
+1. Database schema completion → Core API development
+2. Authentication system → Multi-tenant functionality
+3. AI model integration → Document processing features
+4. Performance testing → Production deployment
+5. Security testing → User data handling features
+
+---
+
+## 7. Resource Requirements
+
+### 7.1 Human Resources
+- **Development Team**: 5 full-time team members for 18 weeks
+- **External Resources**: 
+  - UI/UX Designer (contract, 4 weeks)
+  - Security Consultant (contract, 2 weeks)
+  - Cloud Infrastructure Specialist (contract, ongoing)
+
+### 7.2 Technical Resources
+**Development Infrastructure:**
+- Development environments and IDEs
+- Testing frameworks and tools
+- Version control system (GitHub)
+- Project management tools
+
+**Production Infrastructure:**
+- Cloud hosting platform (AWS/Google Cloud/Azure)
+- Database hosting (PostgreSQL, MongoDB, Redis)
+- Content Delivery Network (CDN)
+- Monitoring and analytics tools
+- SSL certificates and security tools
+
+### 7.3 Budget Estimate
+**Development Phase:**
+- Personnel costs: R450,000 (18 weeks × 5 resources)
+- Infrastructure costs: R25,000
+- Third-party services: R15,000
+- Contingency (15%): R73,500
+- **Total Budget**: R563,500
+
+---
+
+## 8. Risk Management
+
+### 8.1 High-Risk Items
+**Technical Risks:**
+- **AI Model Performance** (High Impact, Medium Probability)
+  - Risk: Summarization quality below user expectations
+  - Mitigation: Multiple model testing, fallback options, user feedback loops
+
+- **API Reliability** (High Impact, Low Probability)
+  - Risk: OCDS API downtime affecting core functionality
+  - Mitigation: Caching strategy, backup data sources, offline mode
+
+- **Scalability Issues** (Medium Impact, Medium Probability)
+  - Risk: System performance degradation under load
+  - Mitigation: Load testing, auto-scaling infrastructure, performance monitoring
+
+**Business Risks:**
+- **Market Adoption** (High Impact, Medium Probability)
+  - Risk: Lower than expected user registration and engagement
+  - Mitigation: Market research, pilot programs, iterative feature development
+
+- **Competitive Response** (Medium Impact, Low Probability)
+  - Risk: Established players launching similar solutions
+  - Mitigation: Rapid development, unique value proposition, first-mover advantage
+
+### 8.2 Risk Monitoring
+- Weekly risk assessment reviews
+- Monthly stakeholder risk reports
+- Automated system monitoring and alerts
+- User feedback tracking and analysis
+
+---
+
+## 9. Quality Assurance & Compliance
+
+### 9.1 Quality Standards
+- **Code Quality**: 80%+ test coverage, peer code reviews, automated testing
+- **Security**: OWASP compliance, regular vulnerability assessments
+- **Performance**: <2 second response times, 99.5% uptime SLA
+- **Usability**: WCAG 2.1 AA compliance, user experience testing
+
+### 9.2 Compliance Requirements
+- **Data Privacy**: POPIA (Protection of Personal Information Act) compliance
+- **Open Standards**: OCDS (Open Contracting Data Standard) adherence
+- **Security**: ISO 27001 security framework implementation
+- **Accessibility**: Web Content Accessibility Guidelines (WCAG) 2.1
+
+---
+
+## 10. Communication Plan
+
+### 10.1 Stakeholder Communication
+**Internal Team:**
+- Daily standups (15 minutes)
+- Weekly sprint reviews and planning (2 hours)
+- Monthly steering committee meetings (1 hour)
+
+**External Stakeholders:**
+- Bi-weekly progress reports to academic supervisor
+- Monthly demonstration sessions
+- Quarterly business review presentations
+
+### 10.2 Communication Channels
+- **Project Management**: Microsoft Projects for task tracking
+- **Development**: Microsoft Teams for team communication
+- **Documentation**: Confluence for knowledge management
+- **Code Collaboration**: GitHub for version control and reviews
+
+---
+
+## 11. Project Approval
+
+### 11.1 Charter Approval
+This project charter represents the formal authorization to proceed with the Tender Insight Hub development project. Approval indicates agreement with the scope, objectives, timeline, and resource allocation outlined in this document.
+
+**Approval Required From:**
+- [ ] Dr. Silas Verkijika (Academic Supervisor)
+- [ ] Sinethemba Mthembu (Project Manager)
+- [ ] Khethiwe Skosana (Product Owner)
+- [ ] Development Team Representatives
+
+### 11.2 Change Control
+Any significant changes to scope, timeline, or budget exceeding 10% of original estimates must be formally approved through the change control process and documented as charter amendments.
+
+---
+
+**Document Control:**
+- **Created By**: Project Management Office
+- **Review Cycle**: Monthly or as required for significant changes
+- **Distribution**: All project stakeholders and team members
+- **Storage**: Project repository and stakeholder access portal
+
+---
+
+
